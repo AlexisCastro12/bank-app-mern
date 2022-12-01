@@ -15,7 +15,7 @@ const Login = () => {
     timer: 4000,
     timerProgressBar: true,
     didDestroy: () => {
-      window.location.href = "/Home"
+      window.location.href = `${window.location.hostname}/Home`
     }
   })
 
