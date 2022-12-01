@@ -18,7 +18,7 @@ const Deposit = () => {
         setAmount(Number(values.depositField))  //To display the correct value in toast
         user.balance += Number(values.depositField)
       if (Number(values.depositField) != 0) {  //Not write movements with amounts equals to 0)
-        axios.post("/account/update", {
+        axios.post(`${process.env.REACT_APP_API_URL}/account/update`, {
           balance: user.balance,
           email: user.email,
           tracking: {operationid: 1, amount: Number(values.depositField), balance: user.balance }

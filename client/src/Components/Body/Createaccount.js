@@ -23,7 +23,7 @@ const Createaccount = () => {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userAuth) => {
           //Create a new entry in database
-          return axios.post("/account/create", {
+          return axios.post(`${process.env.REACT_APP_API_URL}/account/create`, {
             name: name,
             email: email
           });

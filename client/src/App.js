@@ -11,28 +11,12 @@ import Accountdetails from "./Components/Body/Accountdetails";
 
 
 //If we use these variables inside other components (files), then we need to declare them globally
-export const UserContext = React.createContext(null);
 export const UserActive = React.createContext(null);
-export const UserMovements = React.createContext(null);
 
 function App() {
   return (
     <>
-      <UserContext.Provider
-        value={{
-          users: [
-            {
-              name: "Abel",
-              email: "abel@mit.edu",
-              password: "secret123",
-              balance: 0,
-              isActive: false,
-            },
-          ],
-        }}
-      >
         <UserActive.Provider value={{ name: "", email:"", balance: 0 }}>
-          <UserMovements.Provider value = {{movements: []}}>
           <BrowserRouter>
             <Navbar />
             <Routes>
@@ -46,9 +30,7 @@ function App() {
               <Route path="Accountdetails" element={<Accountdetails/>} />
             </Routes>
           </BrowserRouter>
-          </UserMovements.Provider>
         </UserActive.Provider>
-      </UserContext.Provider>
     </>
   );
 }

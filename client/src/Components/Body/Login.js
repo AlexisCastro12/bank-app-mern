@@ -35,7 +35,7 @@ const Login = () => {
         const userAuth = result.user;
         console.log(userAuth);
         //check if the user exists and create a new entry if is neccessary
-        axios.post("/account/loginGoogle", {
+        axios.post(`${process.env.REACT_APP_API_URL}/account/loginGoogle`, {
           name: userAuth.displayName,
           email: userAuth.email
         });

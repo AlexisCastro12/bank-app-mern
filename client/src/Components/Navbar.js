@@ -22,7 +22,7 @@ const Navbar = () => {
     if (userAuth) {
       console.log(userAuth);
       if(user.name == ""){
-      axios.get("/account/find", {
+      axios.get(`${process.env.REACT_APP_API_URL}/account/find`, {
         params: {
           email: userAuth.email
         }

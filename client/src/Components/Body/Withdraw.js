@@ -20,7 +20,7 @@ const Withdraw = () => {
         user.balance -= Number(values.withdrawField);
         if (Number(values.withdrawField) != 0) {  //Not write movements with amounts equals to 0
           axios
-            .post("/account/update", {
+            .post(`${process.env.REACT_APP_API_URL}/account/update`, {
               balance: user.balance,
               email: user.email,
               tracking: {

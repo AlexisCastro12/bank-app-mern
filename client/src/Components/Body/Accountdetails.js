@@ -1,7 +1,6 @@
 import React from "react";
-import { UserActive, UserMovements } from "../../App";
+import { UserActive } from "../../App";
 import axios from "axios";
-import { move } from "formik";
 
 const Accountdetails = () => {
   const user = React.useContext(UserActive);
@@ -9,7 +8,7 @@ const Accountdetails = () => {
 
   React.useEffect(() => {
     axios
-      .get("/account/movements", {
+      .get(`${process.env.REACT_APP_API_URL}/account/movements`, {
         params: {
           email: user.email,
         },
