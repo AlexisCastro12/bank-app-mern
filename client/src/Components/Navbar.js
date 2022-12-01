@@ -16,7 +16,7 @@ const Navbar = () => {
 
   const logout = () => {
     signOut(auth);
-    window.location.href = "/Home";
+    window.location.href = `${window.location.hostname}/Home`;
   }
   onAuthStateChanged(auth, (userAuth) => {
     if (userAuth) {
