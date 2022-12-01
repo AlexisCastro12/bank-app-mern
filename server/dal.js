@@ -1,66 +1,59 @@
-const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://localhost:27017';
-let db = null;
+const mongoose = require("mongoose");
+require('dotenv').config();
 
-// connect to mongo
-MongoClient.connect(url, { useUnifiedTopology: true }, function (err, client) {
-    console.log("Connected successfully to db server");
+const url = process.env.DATABASE_URL;
+const userModel = require("./userModel");
+//  const url = 'mongodb://localhost:27017';  //Local development
 
-    // connect to myproject database
-    db = client.db('bankMERN');
-});
+//Connect to mongodb
+mongoose
+  .connect(url)
+  .then(() => console.log("Connected successfully to db server"))
+  .catch((error) => {
+    console.log(error);
+  });
 
-// create user account using the collection.insertOne function
+// create user account using the Model.insertOne function
 function create(name, email) {
-    return new Promise((resolve, reject) => {
-      const collection = db.collection('users');  //Creating or searching a new collection called users
-      const doc = {name, email, balance:0, movements: []}; //we don't need the password because firebase is managing it
-      collection.insertOne(doc, {w:1}, function(err,result){
-        err ? reject(err) : resolve(doc);
-      });
+  return new Promise((resolve, reject) => {
+    //const collection = db.collection("users"); //Creating or searching a new collection called users
+    const doc = { name, email, balance: 0, movements: [] }; //we don't need the password because firebase is managing it
+    userModel.create(doc, function (err) {
+      err ? reject(err) : resolve(doc);
     });
+  });
 }
 // find user account
 function findOne(email) {
-    return new Promise((resolve, reject) => {
-        const customers = db
-            .collection('users')
-            .findOne({ email: email })
-            .then((doc) => resolve(doc))
-            .catch((err) => reject(err));
-    })
+  return new Promise((resolve, reject) => {
+    userModel.findOne({ email: email }, function (err, user) {
+      err ? reject(err) : resolve(user);
+    });
+  });
 }
 
 // update - deposit/withdraw amount
 function update(email, balance, tracking) {
-    return new Promise((resolve, reject) => {
-        const customers = db
-            .collection('users')
-            .updateOne(
-                { email: email },
-                { $set: { balance: balance }, $push:{movements: tracking} },
-                { returnOriginal: false },
-                function (err, documents) {
-                    err ? reject(err) : resolve(documents);
-                }
-            );
-
-
-    });
+  return new Promise((resolve, reject) => {
+    userModel
+      .updateOne(
+        { email: email },
+        { $set: { balance: balance }, $push: { movements: tracking } },
+        function (err, document) {
+          err ? reject(err) : resolve(document);
+        }
+      );
+  });
 }
 
 // return all users by using the collection.find method
 function allMovements(email) {
-    return new Promise((resolve, reject) => {
-      const customers = db
-      .collection('users')  //Accessing to collection
-      .findOne({email: email})
-      .then((doc) => {
-        resolve(doc.movements)
-      })  //Send documents by promise
-      .catch((err) => reject(err));
-    })
-}
+  return new Promise((resolve, reject) => {
 
+    userModel.findOne({ email: email }, function (err, user) {
+      err ? reject(err) : resolve(user.movements);
+    });
+  });
+}
 
 module.exports = { create, findOne, update, allMovements };

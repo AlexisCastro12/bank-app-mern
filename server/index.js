@@ -3,8 +3,6 @@ const app = express();
 const cors = require("cors");
 const dal = require("./dal.js");
 
-//  used to serve static files from public directory
-//app.use(express.static());
 app.use(cors());
 app.use(express.json());
 
