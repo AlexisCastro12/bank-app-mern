@@ -20,14 +20,14 @@ const Navbar = () => {
   }
   onAuthStateChanged(auth, (userAuth) => {
     if (userAuth) {
-      console.log(userAuth);
+      //console.log(userAuth);
       if(user.name == ""){
       axios.get(`${process.env.REACT_APP_API_URL}/account/find`, {
         params: {
           email: userAuth.email
         }
       }).then(function (res) {
-        console.log(user);
+        //console.log(user);
         user.name = res.data.name;
         user.email = res.data.email;
         user.balance = res.data.balance;
@@ -41,7 +41,7 @@ const Navbar = () => {
         user.name = "";
         user.email = "";
         user.balance = 0;
-      console.log("User is not logged in");
+      //console.log("User is not logged in");
       setShow(false); //Only display options to start a session
     }
   });

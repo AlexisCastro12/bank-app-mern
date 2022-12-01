@@ -23,20 +23,16 @@ const Createaccount = () => {
       createUserWithEmailAndPassword(auth, email, password)
         .then((userAuth) => {
           //Create a new entry in database
+          //We signOut to allow add more accounts and avoid problems
+          signOut(auth);
+          setShow(false);
+          values.nameField = "";
+          values.emailField = "";
+          values.pswField = "";
           return axios.post(`${process.env.REACT_APP_API_URL}/account/create`, {
             name: name,
             email: email
           });
-        })
-        .then(function () {
-          //THE NEXT INSTRUCTIONS GONNA EXECUTE IT IF THE REGISTER IN FIREBASE AND DATABASE IS SUCCESSFULL
-          //after creating and logging the user we have to clean values to show a clean form when add a new account
-          //We signOut to allow add more accounts and avoid problems
-          signOut(auth);
-          values.nameField = "";
-          values.emailField = "";
-          values.pswField = "";
-          setShow(false);
         })
         .catch(function (error) {
           console.log(error);
