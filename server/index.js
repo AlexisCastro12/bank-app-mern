@@ -3,7 +3,10 @@ const app = express();
 const cors = require("cors");
 const dal = require("./dal.js");
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.ORIGINS_URL
+}
+));
 app.use(express.json());
 
 // create user account
