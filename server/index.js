@@ -1,13 +1,16 @@
-const express = require("express");
+import express from "express";
+import cors from "cors";
+
 const app = express();
-const cors = require("cors");
 const dal = require("./dal.js");
 
-app.use(cors({
-  origin: process.env.ORIGINS_URL
-}
-));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 
 // create user account
 app.post("/account/create", function (req, res) {
