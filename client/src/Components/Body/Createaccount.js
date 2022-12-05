@@ -4,6 +4,7 @@ import { useFormik } from "formik";
 import auth from "../firebaseConfig";
 import { createUserWithEmailAndPassword, signOut } from "firebase/auth";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Createaccount = () => {
   const [show, setShow] = React.useState(true); //to switch Create Account Form & Registration successful
@@ -168,13 +169,14 @@ const Createaccount = () => {
               >
                 Add another account
               </button>
+              <Link to="/login">
               <button
                 style={{ width: "100%" }}
                 className="btn btn-light mt-2"
-                onClick={() => window.location.href = "/login"}
               >
-                Login into account 
+                Login into account
               </button>
+              </Link>
             </>
             
           }
