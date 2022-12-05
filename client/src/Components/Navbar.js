@@ -10,8 +10,7 @@ import {
 } from "firebase/auth";
 import axios from 'axios'
 
-const Navbar = () => {
-  const [show, setShow] = React.useState(false); //to switch between user options to navigate in app
+const Navbar = ({display, username, handleDisplay, handleName}) => {
   const user = React.useContext(UserActive); //Context to display information of the active user in the UI
 
   const logout = () => {
@@ -31,7 +30,8 @@ const Navbar = () => {
         user.name = res.data.name;
         user.email = res.data.email;
         user.balance = res.data.balance;
-      setShow(true)
+        handleName(res.data.name);
+        handleDisplay(true);
     })
     .catch(function (error) {
       console.log(error);
@@ -42,7 +42,7 @@ const Navbar = () => {
         user.email = "";
         user.balance = 0;
       //console.log("User is not logged in");
-      setShow(false); //Only display options to start a session
+      handleDisplay(false); //Only display options to start a session
     }
   });
 
@@ -58,7 +58,7 @@ const Navbar = () => {
           </Link>
         </OverlayTrigger>
         <div className="container">
-          {show ? (
+          {display ? (
             <>
               <ul className="navbar-nav">
                 <OverlayTrigger
@@ -96,7 +96,7 @@ const Navbar = () => {
                 
               </ul>
               <div className="d-flex">
-                <p className="navbar-text m-3"><b>Hi {user.name}!</b></p>
+                <p className="navbar-text m-3"><b>Hi {username}!</b></p>
                 <button className="btn btn-outline-danger" onClick={logout}>log out</button>
               </div>
             </>

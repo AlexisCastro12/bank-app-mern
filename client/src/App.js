@@ -14,16 +14,18 @@ import Accountdetails from "./Components/Body/Accountdetails";
 export const UserActive = React.createContext(null);
 
 function App() {
+  const [show, setShow] = React.useState(false); //to switch between user options to navigate in app
+  const [nameNavbar, setNameNavbar] = React.useState(''); //To show in Navbar
   return (
     <>
         <UserActive.Provider value={{ name: "", email:"", balance: 0 }}>
           <BrowserRouter>
-            <Navbar />
+            <Navbar display={show} username={nameNavbar} handleDisplay={setShow} handleName={setNameNavbar}/>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="index.html" element={<Home />} />
               <Route path="Home" element={<Home />} />
-              <Route path="Login" element={<Login />} />
+              <Route path="Login" element={<Login handleDisplay={setShow} handleName={setNameNavbar}/>} />
               <Route path="Withdraw" element={<Withdraw />} />
               <Route path="Deposit" element={<Deposit />} />
               <Route path="Createaccount" element={<Createaccount />} />

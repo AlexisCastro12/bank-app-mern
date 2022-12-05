@@ -9,13 +9,13 @@ import {
 import swal from 'sweetalert2';
 import axios from 'axios'
 
-const Login = () => {
+const Login = ({handleDisplay, handleName}) => {
   const modal = swal.mixin({
     showConfirmButton: true,
     timer: 4000,
     timerProgressBar: true,
     didDestroy: () => {
-      window.location.href = "/"
+      window.location.href = "/";
     }
   })
 
@@ -34,6 +34,7 @@ const Login = () => {
       .then((result) => {
         const userAuth = result.user;
         console.log(userAuth);
+        handleName(userAuth.displayName);
         //check if the user exists and create a new entry if is neccessary
         axios.post(`${process.env.REACT_APP_API_URL}/account/loginGoogle`, {
           name: userAuth.displayName,
@@ -45,10 +46,12 @@ const Login = () => {
           text: 'you have successfully logged in',
           footer: `<p>you are logged in as <b>${userAuth.email}</b></p>`
         })
+        handleDisplay(true);
       })
       .catch(function (error) {
         console.log(error);
         errorModalHandle();
+        handleDisplay(false)
       });
   };
 
@@ -69,10 +72,12 @@ const Login = () => {
             text: 'you have successfully logged in',
             footer: `<p>you are logged in as <b>${userCredential.user.email}</b></p>`
           })
+          handleDisplay(true);
         })
         .catch(function (error) {
           console.log(error);
           errorModalHandle();
+          handleDisplay(false);
         });
     },
     validate: (values) => {
